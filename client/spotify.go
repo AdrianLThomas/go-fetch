@@ -2,6 +2,7 @@ package client
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -20,16 +21,17 @@ const (
 
 // SpotifyClient is for communicating with Spotify
 type SpotifyClient struct {
-	client  *http.Client
-	baseURL string
+	client *http.Client
+	token  string
 }
 
 // NewSpotifyClient returns a pointer to a newly created Spotify Client
-func NewSpotifyClient() *SpotifyClient {
+func NewSpotifyClient(authToken string) *SpotifyClient {
 	return &SpotifyClient{
 		client: &http.Client{
 			Timeout: DefaultClientTimeout,
 		},
+		token: authToken,
 	}
 }
 
@@ -39,20 +41,23 @@ func (c *SpotifyClient) SetTimeout(t time.Duration) {
 }
 
 // Fetch retrieves the Artist data from Spotify
-func (c *SpotifyClient) Fetch(artistName string, bearerToken string) (model.Artist, error) {
-	resp, err := c.client.Get(c.baseURL + c.buildURL(artistName))
+func (c *SpotifyClient) Fetch(artistName string) (model.Artist, error) {
+	resp, err := c.client.Get(BaseURL + c.buildURL(artistName))
+	defer resp.Body.Close()
 
 	if err != nil {
 		return model.Artist{}, err
 	}
-	defer resp.Body.Close()
+	if resp.StatusCode == 401 {
+		return model.Artist{}, errors.New("Spotify: Unauthorised")
+	}
 
 	var artistResponse model.ArtistResponse
 	if err := json.NewDecoder(resp.Body).Decode(&artistResponse); err != nil {
 		return model.Artist{}, err
 	}
 
-	return artistResponse.Artist()
+	return artistResponse.Artist(), nil
 }
 
 func (c *SpotifyClient) buildURL(artistName string) string {
