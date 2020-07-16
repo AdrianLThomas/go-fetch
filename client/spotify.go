@@ -11,8 +11,8 @@ import (
 )
 
 const (
-	// BaseURL contains Spotify URL to Drake
-	BaseURL = "https://api.spotify.com/v1/artists/3TVXtAsR1Inumwj472S9r4"
+	// BaseURL contains Spotify URL to v1 of the API
+	BaseURL = "https://api.spotify.com/v1/"
 
 	// DefaultClientTimeout is time to wait before cancelling the request
 	DefaultClientTimeout time.Duration = 30 * time.Second
@@ -40,7 +40,7 @@ func (c *SpotifyClient) SetTimeout(t time.Duration) {
 
 // Fetch retrieves the Artist data from Spotify
 func (c *SpotifyClient) Fetch(artistName string, bearerToken string) (model.Artist, error) {
-	resp, err := c.client.Get(c.buildURL(artistName))
+	resp, err := c.client.Get(c.baseURL + c.buildURL(artistName))
 
 	if err != nil {
 		return model.Artist{}, err
@@ -56,5 +56,5 @@ func (c *SpotifyClient) Fetch(artistName string, bearerToken string) (model.Arti
 }
 
 func (c *SpotifyClient) buildURL(artistName string) string {
-	return fmt.Sprintf("https://api.spotify.com/v1/search?q=%s&type=artist", url.QueryEscape(artistName))
+	return fmt.Sprintf("search?q=%s&type=artist", url.QueryEscape(artistName))
 }
