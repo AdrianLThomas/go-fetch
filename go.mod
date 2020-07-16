@@ -1,3 +1,3 @@
-module adrian-thomas.com/go-fetch
+module github.com/AdrianLThomas/go-fetch
 
 go 1.13

@@ -1,8 +1,13 @@
 package client
 
 import (
+	"encoding/json"
+	"fmt"
 	"net/http"
+	"net/url"
 	"time"
+
+	"github.com/AdrianLThomas/go-fetch/model"
 )
 
 const (
@@ -33,6 +38,23 @@ func (c *SpotifyClient) SetTimeout(t time.Duration) {
 	c.client.Timeout = t
 }
 
-// TODO: Fetch()
-// TODO: SaveToDisk()
-// TODO: buildURL()
+// Fetch retrieves the Artist data from Spotify
+func (c *SpotifyClient) Fetch(artistName string, bearerToken string) (model.Artist, error) {
+	resp, err := c.client.Get(c.buildURL(artistName))
+
+	if err != nil {
+		return model.Artist{}, err
+	}
+	defer resp.Body.Close()
+
+	var artistResponse model.ArtistResponse
+	if err := json.NewDecoder(resp.Body).Decode(&artistResponse); err != nil {
+		return model.Artist{}, err
+	}
+
+	return artistResponse.Artist()
+}
+
+func (c *SpotifyClient) buildURL(artistName string) string {
+	return fmt.Sprintf("https://api.spotify.com/v1/search?q=%s&type=artist", url.QueryEscape(artistName))
+}

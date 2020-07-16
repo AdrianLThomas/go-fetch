@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"adrian-thomas.com/go-fetch/model"
+	"github.com/AdrianLThomas/go-fetch/model"
 )
 
 func main() {
