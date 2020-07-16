@@ -42,7 +42,12 @@ func (c *SpotifyClient) SetTimeout(t time.Duration) {
 
 // Fetch retrieves the Artist data from Spotify
 func (c *SpotifyClient) Fetch(artistName string) (model.Artist, error) {
-	resp, err := c.client.Get(BaseURL + c.buildURL(artistName))
+	url := BaseURL + c.buildURL(artistName)
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	req.Header.Add("Accept", "application/json")
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", c.token))
+	resp, err := c.client.Do(req)
 	defer resp.Body.Close()
 
 	if err != nil {
