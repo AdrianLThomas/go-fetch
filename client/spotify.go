@@ -48,11 +48,12 @@ func (c *SpotifyClient) Fetch(artistName string) (model.Artist, error) {
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", c.token))
 	resp, err := c.client.Do(req)
-	defer resp.Body.Close()
 
 	if err != nil {
 		return model.Artist{}, err
 	}
+	defer resp.Body.Close()
+
 	if resp.StatusCode == 401 {
 		return model.Artist{}, errors.New("Spotify: Unauthorised")
 	}
