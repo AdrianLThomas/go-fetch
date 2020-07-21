@@ -57,12 +57,12 @@ func (c *SpotifyClient) Fetch(artistName string) (model.Artist, error) {
 		return model.Artist{}, errors.New("Spotify: Unauthorised")
 	}
 
-	var artistResponse model.ArtistResponse
-	if err := json.NewDecoder(resp.Body).Decode(&artistResponse); err != nil {
+	var searchResponse model.SearchResponse
+	if err := json.NewDecoder(resp.Body).Decode(&searchResponse); err != nil {
 		return model.Artist{}, err
 	}
 
-	return artistResponse.Artist(), nil
+	return searchResponse.Artists.Items[0].Artist(), nil
 }
 
 func (c *SpotifyClient) buildURL(artistName string) string {
