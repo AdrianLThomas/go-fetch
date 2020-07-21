@@ -54,7 +54,6 @@ type Artist struct {
 
 // String formats the Artist struct
 func (a Artist) String() string {
-	// TODO get the image and ASCII it?
 	return fmt.Sprintf("Name: %s\nPopularity: %d\nType: %s\nFollowers: %d\nGenres:%v\nImage:%v", a.Name, a.Popularity, a.Type, a.Followers, a.Genres, a.Image)
 }
 

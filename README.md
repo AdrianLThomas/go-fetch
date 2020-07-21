@@ -7,3 +7,4 @@ Using this exercise to build my very first Golang app, after having completed [A
 - Write some tests
 - Flesh out this README (how to use)
 - Setup build (run tests, linting and other go quality tools)
+- ASCII art for Spotify image..
