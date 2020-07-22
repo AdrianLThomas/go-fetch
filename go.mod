@@ -1,4 +1,4 @@
-module github.com/AdrianLThomas/go-fetch
+module github.com/AdrianLThomas/go-fetch-spotify
 
 go 1.13
 

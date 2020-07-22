@@ -8,7 +8,7 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/AdrianLThomas/go-fetch/model"
+	"github.com/AdrianLThomas/go-fetch-spotify/model"
 )
 
 const (

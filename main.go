@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/AdrianLThomas/go-fetch/client"
+	"github.com/AdrianLThomas/go-fetch-spotify/client"
 )
 
 func main() {
