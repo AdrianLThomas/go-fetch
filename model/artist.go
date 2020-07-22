@@ -34,6 +34,7 @@ func (ai ArtistImage) String() string {
 	convertOptions := convert.DefaultOptions
 	convertOptions.FixedWidth = 100
 	convertOptions.FixedHeight = 40
+	convertOptions.FitScreen = true
 
 	// Create the image converter
 	converter := convert.NewImageConverter()
