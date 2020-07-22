@@ -3,6 +3,9 @@ package model
 import (
 	"encoding/json"
 	"fmt"
+	_ "image/png"
+
+	"github.com/qeesung/image2ascii/convert"
 )
 
 // ArtistImage represents an Artist's image
@@ -13,7 +16,14 @@ type ArtistImage struct {
 }
 
 func (ai ArtistImage) String() string {
-	return fmt.Sprintf("Height: %d, Width: %d, URL: %s", ai.Height, ai.Width, ai.URL)
+	// Create convert options
+	convertOptions := convert.DefaultOptions
+	convertOptions.FixedWidth = 100
+	convertOptions.FixedHeight = 40
+
+	// Create the image converter
+	converter := convert.NewImageConverter()
+	return fmt.Sprintf(converter.ImageFile2ASCIIString("nurburgring.png", &convertOptions))
 }
 
 // ArtistResponse represents a struct for the JSON response
@@ -54,7 +64,7 @@ type Artist struct {
 
 // String formats the Artist struct
 func (a Artist) String() string {
-	return fmt.Sprintf("Name: %s\nPopularity: %d\nType: %s\nFollowers: %d\nGenres:%v\nImage:%v", a.Name, a.Popularity, a.Type, a.Followers, a.Genres, a.Image)
+	return fmt.Sprintf("Name: %s\nPopularity: %d\nType: %s\nFollowers: %d\nGenres:%v\nImage:\n%v", a.Name, a.Popularity, a.Type, a.Followers, a.Genres, a.Image)
 }
 
 // JSON returns a blob given an Artist
