@@ -45,4 +45,4 @@ GGG00000000000000000000000000000000000000000000000
 
 # TODO
 - Write some tests
-- Setup build (run tests, linting and other go quality tools)
+- Pipeline: Add linting and other go quality tools
