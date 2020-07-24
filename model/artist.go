@@ -3,69 +3,10 @@ package model
 import (
 	"encoding/json"
 	"fmt"
-	_ "image/jpeg"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"os"
-
-	"github.com/qeesung/image2ascii/convert"
 )
-
-// ArtistImage represents an Artist's image
-type ArtistImage struct {
-	Width  int    `json:"width"`
-	Height int    `json:"height"`
-	URL    string `json:"url"`
-}
-
-func (ai ArtistImage) String() string {
-	file, fileErr := ioutil.TempFile("", "example")
-	if fileErr != nil {
-		panic(fileErr)
-	}
-
-	err := DownloadFile(file.Name(), ai.URL)
-	if err != nil {
-		panic(err)
-	}
-
-	// Create convert options
-	convertOptions := convert.DefaultOptions
-	convertOptions.FixedWidth = 50
-	convertOptions.FixedHeight = 20
-	convertOptions.FitScreen = true
-
-	// Create the image converter
-	converter := convert.NewImageConverter()
-	return fmt.Sprintf(converter.ImageFile2ASCIIString(file.Name(), &convertOptions))
-}
-
-// ArtistResponse represents a struct for the JSON response
-type ArtistResponse struct {
-	Followers struct {
-		Href  interface{} `json:"href"`
-		Total int         `json:"total"`
-	} `json:"followers"`
-	Genres     []string      `json:"genres"`
-	Images     []ArtistImage `json:"images"`
-	Name       string        `json:"name"`
-	Popularity int           `json:"popularity"`
-	Type       string        `json:"type"`
-	URI        string        `json:"uri"`
-}
-
-// Artist returns an Artist given an ArtistResponse
-func (ar ArtistResponse) Artist() Artist {
-	return Artist{
-		Name:       ar.Name,
-		Popularity: ar.Popularity,
-		Type:       ar.Type,
-		Followers:  ar.Followers.Total,
-		Genres:     ar.Genres,
-		Image:      ar.Images[0],
-	}
-}
 
 // Artist represents an unmarshalled Artist
 type Artist struct {

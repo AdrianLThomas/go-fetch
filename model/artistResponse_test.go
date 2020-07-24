@@ -50,3 +50,10 @@ func TestArtist(t *testing.T) {
 		t.Error("artist and expectedArtist are not equal")
 	}
 }
+
+func TestString(t *testing.T) {
+	// arrange
+
+	// act
+	// assert
+}
