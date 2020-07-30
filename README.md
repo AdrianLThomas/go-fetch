@@ -13,6 +13,12 @@ Usage:
         Auth token to use for query
 ```
 
+## Get your Spotify token
+```
+curl -X "POST" -H "Authorization: Basic <base64 encoded client_id:client_secret>" -d grant_type=client_credentials https://accounts.spotify.com/api/token
+```
+As per [Spotify documentation here](https://developer.spotify.com/documentation/general/guides/authorization-guide/#client-credentials-flow)
+
 ```
 $ go run main.go --artist Korn --token <your_spotify_token_here>
 Name: Korn
