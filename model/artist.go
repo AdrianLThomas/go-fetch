@@ -3,6 +3,8 @@ package model
 import (
 	"encoding/json"
 	"fmt"
+
+	"github.com/AdrianLThomas/go-fetch-spotify/utility"
 )
 
 // Artist represents an unmarshalled Artist
@@ -17,7 +19,14 @@ type Artist struct {
 
 // String formats the Artist struct
 func (a Artist) String() string {
-	return fmt.Sprintf("Name: %s\nPopularity: %d\nType: %s\nFollowers: %d\nGenres:%v\nImage:\n%s", a.Name, a.Popularity, a.Type, a.Followers, a.Genres, a.Image.ToASCIIArt())
+	return fmt.Sprintf(
+		"Name: %s\nPopularity: %d\nType: %s\nFollowers: %d\nGenres:%v\nImage:\n%s",
+		a.Name,
+		a.Popularity,
+		a.Type,
+		a.Followers,
+		a.Genres,
+		a.Image.ToASCIIArt(utility.DownloadToFile, 50, 20))
 }
 
 // JSON returns a blob given an Artist

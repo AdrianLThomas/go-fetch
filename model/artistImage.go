@@ -3,7 +3,6 @@ package model
 import (
 	"fmt"
 
-	"github.com/AdrianLThomas/go-fetch-spotify/utility"
 	"github.com/qeesung/image2ascii/convert"
 )
 
@@ -15,13 +14,13 @@ type ArtistImage struct {
 }
 
 // ToASCIIArt converts the struct in to an ASCII art representation
-func (ai ArtistImage) ToASCIIArt() string {
-	fileName := utility.DownloadToFile(ai.URL)
+func (ai ArtistImage) ToASCIIArt(downloadToFile func(url string) string, width int, height int) string {
+	fileName := downloadToFile(ai.URL)
 
 	// Create convert options
 	convertOptions := convert.DefaultOptions
-	convertOptions.FixedWidth = 50
-	convertOptions.FixedHeight = 20
+	convertOptions.FixedWidth = width
+	convertOptions.FixedHeight = height
 	convertOptions.FitScreen = true
 
 	// Create the image converter
