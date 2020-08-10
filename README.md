@@ -50,5 +50,7 @@ GGG00000000000000000000000000000000000000000000000
 ```
 
 # TODO
-- Write some tests
-- Pipeline: Add linting and other go quality tools
+- Tests for:
+  - File downloader utility
+  - Spotify client
+- Pipeline: Add linting and other Go quality tools
