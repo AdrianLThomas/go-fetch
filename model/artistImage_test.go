@@ -21,8 +21,7 @@ func TestToASCIIArt(t *testing.T) {
 		return basepath + "/../.test_resources/pixel.png"
 	}
 	expected := `[38;5;180mC[0;00m
-`
-	// TODO - may make sense to mock generation of ASCII too.
+` // ANSI coloured pixel
 
 	// act
 	actual := ai.ToASCIIArt(mockDownloadToFile, 1, 1)
