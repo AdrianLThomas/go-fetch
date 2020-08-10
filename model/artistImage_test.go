@@ -1,8 +1,6 @@
 package model
 
 import (
-	"fmt"
-	"os"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -29,16 +27,5 @@ func TestToASCIIArt(t *testing.T) {
 	// assert
 	if strings.Compare(actual, expected) != 0 {
 		t.Error("actual ASCII did not match expected ASCII")
-
-		file, err := os.Create("/tmp/a.txt")
-		if err != nil {
-			fmt.Println(err)
-		} else {
-			file.WriteString(actual)
-			fmt.Println("Done")
-		}
-		file.Close()
-
-		fmt.Printf(actual)
 	}
 }
