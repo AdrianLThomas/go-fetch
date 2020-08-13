@@ -25,5 +25,5 @@ func (ai ArtistImage) ToASCIIArt(downloadToFile func(url string) string, width i
 
 	// Create the image converter
 	converter := convert.NewImageConverter()
-	return fmt.Sprintf(converter.ImageFile2ASCIIString(fileName, &convertOptions))
+	return fmt.Sprint(converter.ImageFile2ASCIIString(fileName, &convertOptions))
 }
