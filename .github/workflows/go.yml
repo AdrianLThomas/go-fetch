@@ -24,18 +24,17 @@ jobs:
 
     - name: Get dependencies
       run: |
-        cd src
-        go get -v -t -d ./...
+      cd src && go get -v -t -d ./...
         if [ -f Gopkg.toml ]; then
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
         fi
 
     - name: Build
-      run: go build -v .
+      run: cd src && go build -v .
 
     - name: Test
-      run: go test -v ./...
+      run: cd src && go test -v ./...
     
     - name: Lint
       uses: actions-contrib/golangci-lint@v1
