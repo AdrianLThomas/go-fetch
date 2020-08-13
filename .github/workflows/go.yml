@@ -37,7 +37,7 @@ jobs:
       run: cd src && go test -v ./...
     
     - name: Lint
-      uses: actions-contrib/golangci-lint@v1
+      uses: golangci/golangci-lint-action@v1
       with:
         version: v1.29
         working-directory: src
