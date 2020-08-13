@@ -31,7 +31,7 @@ jobs:
         fi
 
     - name: Lint
-    uses: actions-contrib/golangci-lint@v1
+      uses: actions-contrib/golangci-lint@v1
 
     - name: Build
       run: go build -v .
