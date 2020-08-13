@@ -38,3 +38,6 @@ jobs:
     
     - name: Lint
       uses: actions-contrib/golangci-lint@v1
+      with:
+        version: v1.29
+        working-directory: src
