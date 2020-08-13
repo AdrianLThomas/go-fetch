@@ -53,4 +53,3 @@ GGG00000000000000000000000000000000000000000000000
 - Tests for:
   - File downloader utility
   - Spotify client
-- Pipeline: Add linting and other Go quality tools
