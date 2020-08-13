@@ -30,15 +30,12 @@ jobs:
             dep ensure
         fi
 
+    - name: Lint
+    uses: actions-contrib/golangci-lint@v1
+
     - name: Build
       run: go build -v .
 
     - name: Test
       run: go test -v ./...
-
-    - name: Lint
-      run: | 
-        go env
-        ls $GOROOT
-      # uses: actions-contrib/golangci-lint@v1
     
