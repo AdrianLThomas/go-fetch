@@ -7,6 +7,20 @@ import (
 	"os"
 )
 
+// HTTPClient interface
+type HTTPClient interface {
+	Get(url string) (resp *http.Response, err error)
+}
+
+var (
+	// Client used for making HTTP calls
+	Client HTTPClient
+)
+
+func init() {
+	Client = &http.Client{}
+}
+
 // DownloadToFile downloads a file and returns the local filepath
 func DownloadToFile(url string) string {
 	file, fileErr := ioutil.TempFile("", "example")
@@ -23,9 +37,8 @@ func DownloadToFile(url string) string {
 }
 
 func downloadFile(filepath string, url string) error {
-
 	// Get the data
-	resp, err := http.Get(url)
+	resp, err := Client.Get(url)
 	if err != nil {
 		return err
 	}
