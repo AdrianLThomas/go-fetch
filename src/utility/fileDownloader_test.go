@@ -2,6 +2,7 @@ package utility
 
 import (
 	"bytes"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"path/filepath"
@@ -9,21 +10,27 @@ import (
 )
 
 type MockClient struct {
-	GetFunc func(url string) (resp *http.Response, err error)
+	StatusCode int
+	GetFunc    func(url string) (resp *http.Response, err error)
 }
 
 func (m *MockClient) Get(url string) (resp *http.Response, err error) {
 	r := ioutil.NopCloser(bytes.NewReader([]byte("hello")))
 
-	return &http.Response{
-		StatusCode: 200,
-		Body:       r,
-	}, nil
+	if m.StatusCode == 404 {
+		return nil, errors.New("Bad 404")
+	} else {
+		return &http.Response{
+			StatusCode: m.StatusCode,
+			Body:       r,
+		}, nil
+	}
+
 }
 
 func TestDownloadToFile_CalledWithUrl_ReturnsAFilePath(t *testing.T) {
 	// arrange
-	Client = &MockClient{}
+	Client = &MockClient{StatusCode: 200}
 
 	// act
 	actualPath, err := DownloadToFile("http://www.example.com/image.jpg")
@@ -39,7 +46,7 @@ func TestDownloadToFile_CalledWithUrl_ReturnsAFilePath(t *testing.T) {
 
 func TestDownloadToFile_CalledWithEmptyUrl_ReturnsError(t *testing.T) {
 	// arrange
-	Client = &MockClient{}
+	Client = &MockClient{StatusCode: 200}
 
 	// act
 	actualPath, err := DownloadToFile("")
@@ -51,4 +58,15 @@ func TestDownloadToFile_CalledWithEmptyUrl_ReturnsError(t *testing.T) {
 	}
 }
 
-// TODO test for http error (404?, 500..)
+func TestDownloadToFile_404Url_ReturnsError(t *testing.T) {
+	// arrange
+	Client = &MockClient{StatusCode: 404}
+
+	// act
+	_, err := DownloadToFile("http://www.example.com/404")
+
+	// assert
+	if err == nil {
+		t.Error("didn't return 404")
+	}
+}
