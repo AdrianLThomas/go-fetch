@@ -1,6 +1,7 @@
 package utility
 
 import (
+	"errors"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -22,18 +23,22 @@ func init() {
 }
 
 // DownloadToFile downloads a file and returns the local filepath
-func DownloadToFile(url string) string {
+func DownloadToFile(url string) (string, error) {
+	if len(url) <= 0 {
+		return "", errors.New("URL is empty")
+	}
+
 	file, fileErr := ioutil.TempFile("", "example")
 	if fileErr != nil {
-		panic(fileErr)
+		return "", fileErr
 	}
 
 	err := downloadFile(file.Name(), url)
 	if err != nil {
-		panic(err)
+		return "", err
 	}
 
-	return file.Name()
+	return file.Name(), nil
 }
 
 func downloadFile(filepath string, url string) error {

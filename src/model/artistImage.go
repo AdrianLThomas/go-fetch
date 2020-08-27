@@ -14,8 +14,11 @@ type ArtistImage struct {
 }
 
 // ToASCIIArt converts the struct in to an ASCII art representation
-func (ai ArtistImage) ToASCIIArt(downloadToFile func(url string) string, width int, height int) string {
-	fileName := downloadToFile(ai.URL)
+func (ai ArtistImage) ToASCIIArt(downloadToFile func(url string) (string, error), width int, height int) string {
+	fileName, err := downloadToFile(ai.URL)
+	if err != nil {
+		panic(err)
+	}
 
 	// Create convert options
 	convertOptions := convert.DefaultOptions

@@ -26,13 +26,29 @@ func TestDownloadToFile_CalledWithUrl_ReturnsAFilePath(t *testing.T) {
 	Client = &MockClient{}
 
 	// act
-	actualPath := DownloadToFile("http://www.example.com/image.jpg")
+	actualPath, err := DownloadToFile("http://www.example.com/image.jpg")
 
 	// assert
+	if err != nil {
+		t.Error("returned unexpected error", err)
+	}
 	if !filepath.IsAbs(actualPath) {
 		t.Errorf("actualPath (%s) is not an absolute path", actualPath)
 	}
 }
 
-// TODO test for nil url
+func TestDownloadToFile_CalledWithEmptyUrl_ReturnsError(t *testing.T) {
+	// arrange
+	Client = &MockClient{}
+
+	// act
+	actualPath, err := DownloadToFile("")
+
+	// assert
+	if err == nil {
+		t.Error("didn't return the expected error", err)
+		t.Log(actualPath)
+	}
+}
+
 // TODO test for http error (404?, 500..)
