@@ -28,7 +28,7 @@ func DownloadToFile(url string) (string, error) {
 		return "", errors.New("URL is empty")
 	}
 
-	file, fileErr := ioutil.TempFile("", "example")
+	file, fileErr := ioutil.TempFile("", "go-spotify-img")
 	if fileErr != nil {
 		return "", fileErr
 	}
