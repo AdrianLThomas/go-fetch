@@ -15,11 +15,11 @@ func main() {
 
 	if *artistName == "" {
 		fmt.Println("--artist not set")
-		return
+		os.Exit(1)
 	}
 	if *spotifyToken == "" {
 		fmt.Println("--token not set")
-		return
+		os.Exit(1)
 	}
 
 	spotifyClient := client.NewSpotifyClient(*spotifyToken)
