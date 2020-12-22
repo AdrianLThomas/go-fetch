@@ -11,7 +11,6 @@ import (
 
 type MockClient struct {
 	StatusCode int
-	GetFunc    func(url string) (resp *http.Response, err error)
 }
 
 func (m *MockClient) Get(url string) (resp *http.Response, err error) {
